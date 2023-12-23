@@ -6,13 +6,28 @@ const state = {
         score: document.querySelector("#score")
     },
     values:{
-        timerId: null,
         gameVelocity: 700,
         hitPosition: 0,
-        result: 0
+        result: 0,
+        currentTime: 60
+    },
+    actions:{        
+        timerId: setInterval(randomSquare, 800),
+        countDownTimerId: setInterval(countDown, 1000)
+    } 
+};
+
+function countDown(){
+    state.values.currentTime--;
+    state.view.time.textContent = state.values.currentTime;
+
+    if (state.values.currentTime <= 0) {
+        clearInterval(state.actions.countDownTimerId);
+        clearInterval(state.actions.timerId);
+        alert("Game Over! O seu resultado foi: " + state.values.result);
 
     }
-};
+}
 
 function randomSquare(){
     state.view.squares.forEach((square) => {
@@ -26,10 +41,10 @@ function randomSquare(){
     state.values.hitPosition = randomSquare.id;
 }
 
-function moveEnemy(){
-    state.values.timerId = 
-    setInterval(randomSquare, state.values.gameVelocity);
-}
+// function moveEnemy(){
+//     state.values.timerId = 
+//     setInterval(randomSquare, state.values.gameVelocity);
+// }
 
 function addListnerHitBox(){
     state.view.squares.forEach((square) => {
@@ -44,7 +59,7 @@ function addListnerHitBox(){
 }
 
 function init(){
-   moveEnemy();
+   //moveEnemy();
    addListnerHitBox();
 }
 
